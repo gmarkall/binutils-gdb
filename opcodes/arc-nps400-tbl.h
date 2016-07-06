@@ -34,7 +34,9 @@
 /* encode1<.f> */
 { "encode1", 0x48048000, 0xf80f8000, ARC_OPCODE_ARC700, BITOP, NPS400, { NPS_R_DST_3B, NPS_R_SRC2_3B, NPS_BITOP_SRC_POS, NPS_BITOP_SIZE }, { C_NPS_F }},
 
-/* mrgb - 48 bit instruction, see arc_long_opcodes in arc-opc.c.  */
+/* mrgb - 48 bit instruction */
+{ "mrgb", 0x580300000000, 0xf81f80000000, ARC_OPCODE_ARC700, BITOP, NPS400, { NPS_R48_DST_3B_SHORT, NPS_R48_SRC1_3B_SHORT, NPS_R48_SRC2_3B_SHORT, NPS_BITOP_DST_POS1, NPS_BITOP_SRC_POS1, NPS_BITOP_SIZE1, NPS_BITOP_DST_POS2, NPS_BITOP_SRC_POS2, NPS_BITOP_SIZE2 }, { 0 }},
+
 /* mrgb.cl - 48 bit instruction, see arc_long_opcodes in arc-opc.c.  */
 /* mov2b - 48 bit instruction, see arc_long_opcodes in arc-opc.c.  */
 /* mov2b.cl - 48 bit instruction, see arc_long_opcodes in arc-opc.c.  */

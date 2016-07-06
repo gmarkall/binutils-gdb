@@ -31,16 +31,16 @@
    this reduces the chances that regressions might creep in.  */
 
 /* Insert RB register into a 32-bit opcode.  */
-static unsigned
-insert_rb (unsigned insn,
-	   int value,
+static unsigned long long
+insert_rb (unsigned long long insn,
+	   long long int value,
 	   const char **errmsg ATTRIBUTE_UNUSED)
 {
   return insn | ((value & 0x07) << 24) | (((value >> 3) & 0x07) << 12);
 }
 
-static int
-extract_rb (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_rb (unsigned long long insn ATTRIBUTE_UNUSED,
 	    bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = (((insn >> 12) & 0x07) << 3) | ((insn >> 24) & 0x07);
@@ -52,9 +52,9 @@ extract_rb (unsigned insn ATTRIBUTE_UNUSED,
   return value;
 }
 
-static unsigned
-insert_rad (unsigned insn,
-	    int value,
+static unsigned long long
+insert_rad (unsigned long long insn,
+	    long long int value,
 	    const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value & 0x01)
@@ -63,9 +63,9 @@ insert_rad (unsigned insn,
   return insn | (value & 0x3F);
 }
 
-static unsigned
-insert_rcd (unsigned insn,
-	    int value,
+static unsigned long long
+insert_rcd (unsigned long long insn,
+	    long long int value,
 	    const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value & 0x01)
@@ -76,9 +76,9 @@ insert_rcd (unsigned insn,
 
 /* Dummy insert ZERO operand function.  */
 
-static unsigned
-insert_za (unsigned insn,
-	   int value,
+static unsigned long long
+insert_za (unsigned long long insn,
+	   long long int value,
 	   const char **errmsg)
 {
   if (value)
@@ -89,9 +89,9 @@ insert_za (unsigned insn,
 /* Insert Y-bit in bbit/br instructions.  This function is called only
    when solving fixups.  */
 
-static unsigned
-insert_Ybit (unsigned insn,
-	     int value,
+static unsigned long long
+insert_Ybit (unsigned long long insn,
+	     long long int value,
 	     const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value > 0)
@@ -103,9 +103,9 @@ insert_Ybit (unsigned insn,
 /* Insert Y-bit in bbit/br instructions.  This function is called only
    when solving fixups.  */
 
-static unsigned
-insert_NYbit (unsigned insn,
-	      int value,
+static unsigned long long
+insert_NYbit (unsigned long long insn,
+	      long long int value,
 	      const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value < 0)
@@ -116,16 +116,16 @@ insert_NYbit (unsigned insn,
 
 /* Insert H register into a 16-bit opcode.  */
 
-static unsigned
-insert_rhv1 (unsigned insn,
-	     int value,
+static unsigned long long
+insert_rhv1 (unsigned long long insn,
+	     long long int value,
 	     const char **errmsg ATTRIBUTE_UNUSED)
 {
   return insn |= ((value & 0x07) << 5) | ((value >> 3) & 0x07);
 }
 
-static int
-extract_rhv1 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_rhv1 (unsigned long long insn ATTRIBUTE_UNUSED,
 	      bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = ((insn & 0x7) << 3) | ((insn >> 5) & 0x7);
@@ -135,9 +135,9 @@ extract_rhv1 (unsigned insn ATTRIBUTE_UNUSED,
 
 /* Insert H register into a 16-bit opcode.  */
 
-static unsigned
-insert_rhv2 (unsigned insn,
-	     int value,
+static unsigned long long
+insert_rhv2 (unsigned long long insn,
+	     long long int value,
 	     const char **errmsg)
 {
   if (value == 0x1E)
@@ -146,8 +146,8 @@ insert_rhv2 (unsigned insn,
   return insn |= ((value & 0x07) << 5) | ((value >> 3) & 0x03);
 }
 
-static int
-extract_rhv2 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_rhv2 (unsigned long long insn ATTRIBUTE_UNUSED,
 	      bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = ((insn >> 5) & 0x07) | ((insn & 0x03) << 3);
@@ -155,9 +155,9 @@ extract_rhv2 (unsigned insn ATTRIBUTE_UNUSED,
   return value;
 }
 
-static unsigned
-insert_r0 (unsigned insn,
-	   int value,
+static unsigned long long
+insert_r0 (unsigned long long insn,
+	   long long int value,
 	   const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value != 0)
@@ -165,17 +165,17 @@ insert_r0 (unsigned insn,
   return insn;
 }
 
-static int
-extract_r0 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_r0 (unsigned long long insn ATTRIBUTE_UNUSED,
 	    bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return 0;
 }
 
 
-static unsigned
-insert_r1 (unsigned insn,
-	   int value,
+static unsigned long long
+insert_r1 (unsigned long long insn,
+	   long long int value,
 	   const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value != 1)
@@ -183,16 +183,16 @@ insert_r1 (unsigned insn,
   return insn;
 }
 
-static int
-extract_r1 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_r1 (unsigned long long insn ATTRIBUTE_UNUSED,
 	    bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return 1;
 }
 
-static unsigned
-insert_r2 (unsigned insn,
-	   int value,
+static unsigned long long
+insert_r2 (unsigned long long insn,
+	   long long int value,
 	   const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value != 2)
@@ -200,16 +200,16 @@ insert_r2 (unsigned insn,
   return insn;
 }
 
-static int
-extract_r2 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_r2 (unsigned long long insn ATTRIBUTE_UNUSED,
 	    bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return 2;
 }
 
-static unsigned
-insert_r3 (unsigned insn,
-	   int value,
+static unsigned long long
+insert_r3 (unsigned long long insn,
+	   long long int value,
 	   const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value != 3)
@@ -217,16 +217,16 @@ insert_r3 (unsigned insn,
   return insn;
 }
 
-static int
-extract_r3 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_r3 (unsigned long long insn ATTRIBUTE_UNUSED,
 	    bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return 3;
 }
 
-static unsigned
-insert_sp (unsigned insn,
-	   int value,
+static unsigned long long
+insert_sp (unsigned long long insn,
+	   long long int value,
 	   const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value != 28)
@@ -234,16 +234,16 @@ insert_sp (unsigned insn,
   return insn;
 }
 
-static int
-extract_sp (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_sp (unsigned long long insn ATTRIBUTE_UNUSED,
 	    bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return 28;
 }
 
-static unsigned
-insert_gp (unsigned insn,
-	   int value,
+static unsigned long long
+insert_gp (unsigned long long insn,
+	   long long int value,
 	   const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value != 26)
@@ -251,16 +251,16 @@ insert_gp (unsigned insn,
   return insn;
 }
 
-static int
-extract_gp (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_gp (unsigned long long insn ATTRIBUTE_UNUSED,
 	    bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return 26;
 }
 
-static unsigned
-insert_pcl (unsigned insn,
-	    int value,
+static unsigned long long
+insert_pcl (unsigned long long insn,
+	    long long int value,
 	    const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value != 63)
@@ -268,16 +268,16 @@ insert_pcl (unsigned insn,
   return insn;
 }
 
-static int
-extract_pcl (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_pcl (unsigned long long insn ATTRIBUTE_UNUSED,
 	     bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return 63;
 }
 
-static unsigned
-insert_blink (unsigned insn,
-	      int value,
+static unsigned long long
+insert_blink (unsigned long long insn,
+	      long long int value,
 	      const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value != 31)
@@ -285,16 +285,16 @@ insert_blink (unsigned insn,
   return insn;
 }
 
-static int
-extract_blink (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_blink (unsigned long long insn ATTRIBUTE_UNUSED,
 	       bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return 31;
 }
 
-static unsigned
-insert_ilink1 (unsigned insn,
-	       int value,
+static unsigned long long
+insert_ilink1 (unsigned long long insn,
+	       long long int value,
 	       const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value != 29)
@@ -302,16 +302,16 @@ insert_ilink1 (unsigned insn,
   return insn;
 }
 
-static int
-extract_ilink1 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_ilink1 (unsigned long long insn ATTRIBUTE_UNUSED,
 		bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return 29;
 }
 
-static unsigned
-insert_ilink2 (unsigned insn,
-	       int value,
+static unsigned long long
+insert_ilink2 (unsigned long long insn,
+	       long long int value,
 	       const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value != 30)
@@ -319,16 +319,16 @@ insert_ilink2 (unsigned insn,
   return insn;
 }
 
-static int
-extract_ilink2 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_ilink2 (unsigned long long insn ATTRIBUTE_UNUSED,
 		bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return 30;
 }
 
-static unsigned
-insert_ras (unsigned insn,
-	    int value,
+static unsigned long long
+insert_ras (unsigned long long insn,
+	    long long int value,
 	    const char **errmsg ATTRIBUTE_UNUSED)
 {
   switch (value)
@@ -352,8 +352,8 @@ insert_ras (unsigned insn,
   return insn;
 }
 
-static int
-extract_ras (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_ras (unsigned long long insn ATTRIBUTE_UNUSED,
 	     bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = insn & 0x07;
@@ -363,9 +363,9 @@ extract_ras (unsigned insn ATTRIBUTE_UNUSED,
     return value;
 }
 
-static unsigned
-insert_rbs (unsigned insn,
-	    int value,
+static unsigned long long
+insert_rbs (unsigned long long insn,
+	    long long int value,
 	    const char **errmsg ATTRIBUTE_UNUSED)
 {
   switch (value)
@@ -389,8 +389,8 @@ insert_rbs (unsigned insn,
   return insn;
 }
 
-static int
-extract_rbs (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_rbs (unsigned long long insn ATTRIBUTE_UNUSED,
 	     bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = (insn >> 8) & 0x07;
@@ -400,9 +400,9 @@ extract_rbs (unsigned insn ATTRIBUTE_UNUSED,
     return value;
 }
 
-static unsigned
-insert_rcs (unsigned insn,
-	    int value,
+static unsigned long long
+insert_rcs (unsigned long long insn,
+	    long long int value,
 	    const char **errmsg ATTRIBUTE_UNUSED)
 {
   switch (value)
@@ -426,8 +426,8 @@ insert_rcs (unsigned insn,
   return insn;
 }
 
-static int
-extract_rcs (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_rcs (unsigned long long insn ATTRIBUTE_UNUSED,
 	     bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = (insn >> 5) & 0x07;
@@ -437,9 +437,9 @@ extract_rcs (unsigned insn ATTRIBUTE_UNUSED,
     return value;
 }
 
-static unsigned
-insert_simm3s (unsigned insn,
-	       int value,
+static unsigned long long
+insert_simm3s (unsigned long long insn,
+	       long long int value,
 	       const char **errmsg ATTRIBUTE_UNUSED)
 {
   int tmp = 0;
@@ -478,8 +478,8 @@ insert_simm3s (unsigned insn,
   return insn;
 }
 
-static int
-extract_simm3s (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_simm3s (unsigned long long insn ATTRIBUTE_UNUSED,
 		bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = (insn >> 8) & 0x07;
@@ -489,9 +489,9 @@ extract_simm3s (unsigned insn ATTRIBUTE_UNUSED,
     return value;
 }
 
-static unsigned
-insert_rrange (unsigned insn,
-	       int value,
+static unsigned long long
+insert_rrange (unsigned long long insn,
+	       long long int value,
 	       const char **errmsg ATTRIBUTE_UNUSED)
 {
   int reg1 = (value >> 16) & 0xFFFF;
@@ -510,16 +510,16 @@ insert_rrange (unsigned insn,
   return insn;
 }
 
-static int
-extract_rrange (unsigned insn  ATTRIBUTE_UNUSED,
+static long long int
+extract_rrange (unsigned long long insn  ATTRIBUTE_UNUSED,
 		bfd_boolean * invalid  ATTRIBUTE_UNUSED)
 {
   return (insn >> 1) & 0x0F;
 }
 
-static unsigned
-insert_fpel (unsigned insn,
-	     int value,
+static unsigned long long
+insert_fpel (unsigned long long insn,
+	     long long int value,
 	     const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value != 27)
@@ -532,16 +532,16 @@ insert_fpel (unsigned insn,
   return insn;
 }
 
-static int
-extract_fpel (unsigned insn  ATTRIBUTE_UNUSED,
+static long long int
+extract_fpel (unsigned long long insn  ATTRIBUTE_UNUSED,
 	      bfd_boolean * invalid  ATTRIBUTE_UNUSED)
 {
   return (insn & 0x0100) ? 27 : -1;
 }
 
-static unsigned
-insert_blinkel (unsigned insn,
-		int value,
+static unsigned long long
+insert_blinkel (unsigned long long insn,
+		long long int value,
 		const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value != 31)
@@ -554,16 +554,16 @@ insert_blinkel (unsigned insn,
   return insn;
 }
 
-static int
-extract_blinkel (unsigned insn  ATTRIBUTE_UNUSED,
+static long long int
+extract_blinkel (unsigned long long insn  ATTRIBUTE_UNUSED,
 		 bfd_boolean * invalid  ATTRIBUTE_UNUSED)
 {
   return (insn & 0x0200) ? 31 : -1;
 }
 
-static unsigned
-insert_pclel (unsigned insn,
-	      int value,
+static unsigned long long
+insert_pclel (unsigned long long insn,
+	      long long int value,
 	      const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value != 63)
@@ -576,8 +576,8 @@ insert_pclel (unsigned insn,
   return insn;
 }
 
-static int
-extract_pclel (unsigned insn  ATTRIBUTE_UNUSED,
+static long long int
+extract_pclel (unsigned long long insn  ATTRIBUTE_UNUSED,
 	       bfd_boolean * invalid  ATTRIBUTE_UNUSED)
 {
   return (insn & 0x0400) ? 63 : -1;
@@ -586,9 +586,9 @@ extract_pclel (unsigned insn  ATTRIBUTE_UNUSED,
 #define INSERT_W6
 /* mask = 00000000000000000000111111000000
    insn = 00011bbb000000000BBBwwwwwwDaaZZ1.  */
-static unsigned
-insert_w6 (unsigned insn ATTRIBUTE_UNUSED,
-	   int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_w6 (unsigned long long insn ATTRIBUTE_UNUSED,
+	   long long int value ATTRIBUTE_UNUSED,
 	   const char **errmsg ATTRIBUTE_UNUSED)
 {
   insn |= ((value >> 0) & 0x003f) << 6;
@@ -598,8 +598,8 @@ insert_w6 (unsigned insn ATTRIBUTE_UNUSED,
 
 #define EXTRACT_W6
 /* mask = 00000000000000000000111111000000.  */
-static int
-extract_w6 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_w6 (unsigned long long insn ATTRIBUTE_UNUSED,
 	    bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   unsigned value = 0;
@@ -612,9 +612,9 @@ extract_w6 (unsigned insn ATTRIBUTE_UNUSED,
 #define INSERT_G_S
 /* mask = 0000011100022000
    insn = 01000ggghhhGG0HH.  */
-static unsigned
-insert_g_s (unsigned insn ATTRIBUTE_UNUSED,
-	    int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_g_s (unsigned long long insn ATTRIBUTE_UNUSED,
+	    long long int value ATTRIBUTE_UNUSED,
 	    const char **errmsg ATTRIBUTE_UNUSED)
 {
   insn |= ((value >> 0) & 0x0007) << 8;
@@ -625,8 +625,8 @@ insert_g_s (unsigned insn ATTRIBUTE_UNUSED,
 
 #define EXTRACT_G_S
 /* mask = 0000011100022000.  */
-static int
-extract_g_s (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_g_s (unsigned long long insn ATTRIBUTE_UNUSED,
 	     bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = 0;
@@ -642,9 +642,9 @@ extract_g_s (unsigned insn ATTRIBUTE_UNUSED,
 }
 
 /* ARC NPS400 Support: See comment near head of file.  */
-static unsigned
-insert_nps_3bit_dst (unsigned insn ATTRIBUTE_UNUSED,
-                     int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_3bit_dst (unsigned long long insn ATTRIBUTE_UNUSED,
+                     long long int value ATTRIBUTE_UNUSED,
                      const char **errmsg ATTRIBUTE_UNUSED)
 {
   switch (value)
@@ -668,8 +668,8 @@ insert_nps_3bit_dst (unsigned insn ATTRIBUTE_UNUSED,
   return insn;
 }
 
-static int
-extract_nps_3bit_dst (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_3bit_dst (unsigned long long insn ATTRIBUTE_UNUSED,
                       bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = (insn >> 24) & 0x07;
@@ -679,9 +679,9 @@ extract_nps_3bit_dst (unsigned insn ATTRIBUTE_UNUSED,
     return value;
 }
 
-static unsigned
-insert_nps_3bit_dst_short (unsigned insn ATTRIBUTE_UNUSED,
-                           int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_3bit_dst_short (unsigned long long insn ATTRIBUTE_UNUSED,
+                           long long int value ATTRIBUTE_UNUSED,
                            const char **errmsg ATTRIBUTE_UNUSED)
 {
   switch (value)
@@ -705,8 +705,8 @@ insert_nps_3bit_dst_short (unsigned insn ATTRIBUTE_UNUSED,
   return insn;
 }
 
-static int
-extract_nps_3bit_dst_short (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_3bit_dst_short (unsigned long long insn ATTRIBUTE_UNUSED,
                             bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = (insn >> 8) & 0x07;
@@ -716,9 +716,9 @@ extract_nps_3bit_dst_short (unsigned insn ATTRIBUTE_UNUSED,
     return value;
 }
 
-static unsigned
-insert_nps_3bit_src2 (unsigned insn ATTRIBUTE_UNUSED,
-                      int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_3bit_src2 (unsigned long long insn ATTRIBUTE_UNUSED,
+                      long long int value ATTRIBUTE_UNUSED,
                       const char **errmsg ATTRIBUTE_UNUSED)
 {
   switch (value)
@@ -742,8 +742,8 @@ insert_nps_3bit_src2 (unsigned insn ATTRIBUTE_UNUSED,
   return insn;
 }
 
-static int
-extract_nps_3bit_src2 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_3bit_src2 (unsigned long long insn ATTRIBUTE_UNUSED,
                        bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = (insn >> 21) & 0x07;
@@ -753,9 +753,9 @@ extract_nps_3bit_src2 (unsigned insn ATTRIBUTE_UNUSED,
     return value;
 }
 
-static unsigned
-insert_nps_3bit_src2_short (unsigned insn ATTRIBUTE_UNUSED,
-                            int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_3bit_src2_short (unsigned long long insn ATTRIBUTE_UNUSED,
+                            long long int value ATTRIBUTE_UNUSED,
                             const char **errmsg ATTRIBUTE_UNUSED)
 {
   switch (value)
@@ -779,8 +779,8 @@ insert_nps_3bit_src2_short (unsigned insn ATTRIBUTE_UNUSED,
   return insn;
 }
 
-static int
-extract_nps_3bit_src2_short (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_3bit_src2_short (unsigned long long insn ATTRIBUTE_UNUSED,
                              bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = (insn >> 5) & 0x07;
@@ -790,9 +790,9 @@ extract_nps_3bit_src2_short (unsigned insn ATTRIBUTE_UNUSED,
     return value;
 }
 
-static unsigned
-insert_nps_bitop_size_2b (unsigned insn ATTRIBUTE_UNUSED,
-                          int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_bitop_size_2b (unsigned long long insn ATTRIBUTE_UNUSED,
+                          long long int value ATTRIBUTE_UNUSED,
                           const char **errmsg ATTRIBUTE_UNUSED)
 {
   switch (value)
@@ -819,16 +819,16 @@ insert_nps_bitop_size_2b (unsigned insn ATTRIBUTE_UNUSED,
   return insn;
 }
 
-static int
-extract_nps_bitop_size_2b (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_bitop_size_2b (unsigned long long insn ATTRIBUTE_UNUSED,
                            bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return  1 << ((insn >> 10) & 0x3);
 }
 
-static unsigned
-insert_nps_bitop_uimm8 (unsigned insn ATTRIBUTE_UNUSED,
-                        int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_bitop_uimm8 (unsigned long long insn ATTRIBUTE_UNUSED,
+                        long long int value ATTRIBUTE_UNUSED,
                         const char **errmsg ATTRIBUTE_UNUSED)
 {
   insn |= ((value >> 5) & 7) << 12;
@@ -836,16 +836,16 @@ insert_nps_bitop_uimm8 (unsigned insn ATTRIBUTE_UNUSED,
   return insn;
 }
 
-static int
-extract_nps_bitop_uimm8 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_bitop_uimm8 (unsigned long long insn ATTRIBUTE_UNUSED,
                          bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return (((insn >> 12) & 0x7) << 5) | (insn & 0x1f);
 }
 
-static unsigned
-insert_nps_rflt_uimm6 (unsigned insn ATTRIBUTE_UNUSED,
-                       int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_rflt_uimm6 (unsigned long long insn ATTRIBUTE_UNUSED,
+                       long long int value ATTRIBUTE_UNUSED,
                        const char **errmsg ATTRIBUTE_UNUSED)
 {
   switch (value)
@@ -864,32 +864,32 @@ insert_nps_rflt_uimm6 (unsigned insn ATTRIBUTE_UNUSED,
   return insn;
 }
 
-static int
-extract_nps_rflt_uimm6 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_rflt_uimm6 (unsigned long long insn ATTRIBUTE_UNUSED,
                          bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return (insn >> 6) & 0x3f;
 }
 
-static unsigned
-insert_nps_dst_pos_and_size (unsigned insn ATTRIBUTE_UNUSED,
-                             int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_dst_pos_and_size (unsigned long long insn ATTRIBUTE_UNUSED,
+                             long long int value ATTRIBUTE_UNUSED,
                              const char **errmsg ATTRIBUTE_UNUSED)
 {
   insn |= ((value & 0x1f) | (((32 - value - 1) & 0x1f) << 10));
   return insn;
 }
 
-static int
-extract_nps_dst_pos_and_size (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_dst_pos_and_size (unsigned long long insn ATTRIBUTE_UNUSED,
                               bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return (insn & 0x1f);
 }
 
-static unsigned
-insert_nps_cmem_uimm16 (unsigned insn ATTRIBUTE_UNUSED,
-                        int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_cmem_uimm16 (unsigned long long insn ATTRIBUTE_UNUSED,
+                        long long int value ATTRIBUTE_UNUSED,
                         const char **errmsg ATTRIBUTE_UNUSED)
 {
   int top = (value >> 16) & 0xffff;
@@ -899,17 +899,17 @@ insert_nps_cmem_uimm16 (unsigned insn ATTRIBUTE_UNUSED,
   return insn;
 }
 
-static int
-extract_nps_cmem_uimm16 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_cmem_uimm16 (unsigned long long insn ATTRIBUTE_UNUSED,
                          bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return (NPS_CMEM_HIGH_VALUE << 16) | (insn & 0xffff);
 }
 
 #define MAKE_SRC_POS_INSERT_EXTRACT_FUNCS(NAME,SHIFT)         \
-static unsigned                                               \
-insert_nps_##NAME##_pos (unsigned insn ATTRIBUTE_UNUSED,      \
-                        int value ATTRIBUTE_UNUSED,           \
+static unsigned long long                                               \
+insert_nps_##NAME##_pos (unsigned long long insn ATTRIBUTE_UNUSED,      \
+                        long long int value ATTRIBUTE_UNUSED,           \
                         const char **errmsg ATTRIBUTE_UNUSED) \
 {                                                             \
  switch (value)                                               \
@@ -928,8 +928,8 @@ insert_nps_##NAME##_pos (unsigned insn ATTRIBUTE_UNUSED,      \
   return insn;                                                \
 }                                                             \
                                                               \
-static int                                                    \
-extract_nps_##NAME##_pos (unsigned insn ATTRIBUTE_UNUSED,     \
+static long long int                                                    \
+extract_nps_##NAME##_pos (unsigned long long insn ATTRIBUTE_UNUSED,     \
                           bfd_boolean * invalid ATTRIBUTE_UNUSED)     \
 {                                                                     \
   return ((insn >> SHIFT) & 0x3) * 8;                                 \
@@ -939,9 +939,9 @@ MAKE_SRC_POS_INSERT_EXTRACT_FUNCS (src2, 12)
 MAKE_SRC_POS_INSERT_EXTRACT_FUNCS (src1, 10)
 
 #define MAKE_BIAS_INSERT_EXTRACT_FUNCS(NAME,LOWER,UPPER,BITS,BIAS,SHIFT)\
-static unsigned                                                         \
-insert_nps_##NAME (unsigned insn ATTRIBUTE_UNUSED,                      \
-                   int value ATTRIBUTE_UNUSED,                          \
+static unsigned long long                                                         \
+insert_nps_##NAME (unsigned long long insn ATTRIBUTE_UNUSED,                      \
+                   long long int value ATTRIBUTE_UNUSED,                          \
                    const char **errmsg ATTRIBUTE_UNUSED)                \
   {                                                                     \
     if (value < LOWER || value > UPPER)                                 \
@@ -955,8 +955,8 @@ insert_nps_##NAME (unsigned insn ATTRIBUTE_UNUSED,                      \
     return insn;                                                        \
   }                                                                     \
                                                                         \
-static int                                                              \
-extract_nps_##NAME (unsigned insn ATTRIBUTE_UNUSED,                     \
+static long long int                                                              \
+extract_nps_##NAME (unsigned long long insn ATTRIBUTE_UNUSED,                     \
                     bfd_boolean * invalid ATTRIBUTE_UNUSED)             \
 {                                                                       \
   return ((insn >> SHIFT) & ((1 << BITS) - 1)) + BIAS;                  \
@@ -974,8 +974,8 @@ MAKE_BIAS_INSERT_EXTRACT_FUNCS(hash_width,1,32,5,1,6)
 MAKE_BIAS_INSERT_EXTRACT_FUNCS(hash_len,1,8,3,1,2)
 MAKE_BIAS_INSERT_EXTRACT_FUNCS(index3,4,7,2,4,0)
 
-static int
-extract_nps_qcmp_m3 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_qcmp_m3 (unsigned long long insn ATTRIBUTE_UNUSED,
                      bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int m3 = (insn >> 5) & 0xf;
@@ -984,8 +984,8 @@ extract_nps_qcmp_m3 (unsigned insn ATTRIBUTE_UNUSED,
   return m3;
 }
 
-static int
-extract_nps_qcmp_m2 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_qcmp_m2 (unsigned long long insn ATTRIBUTE_UNUSED,
                      bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   bfd_boolean tmp_invalid = FALSE;
@@ -997,8 +997,8 @@ extract_nps_qcmp_m2 (unsigned insn ATTRIBUTE_UNUSED,
   return m2;
 }
 
-static int
-extract_nps_qcmp_m1 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_qcmp_m1 (unsigned long long insn ATTRIBUTE_UNUSED,
                      bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   bfd_boolean tmp_invalid = FALSE;
@@ -1011,9 +1011,9 @@ extract_nps_qcmp_m1 (unsigned insn ATTRIBUTE_UNUSED,
   return m1;
 }
 
-static unsigned
-insert_nps_calc_entry_size (unsigned insn ATTRIBUTE_UNUSED,
-                            int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_calc_entry_size (unsigned long long insn ATTRIBUTE_UNUSED,
+                            long long int value ATTRIBUTE_UNUSED,
                             const char **errmsg ATTRIBUTE_UNUSED)
 {
   unsigned pwr;
@@ -1036,54 +1036,54 @@ insert_nps_calc_entry_size (unsigned insn ATTRIBUTE_UNUSED,
   return insn | (pwr << 8);
 }
 
-static int
-extract_nps_calc_entry_size (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_calc_entry_size (unsigned long long insn ATTRIBUTE_UNUSED,
                              bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   unsigned entry_size = (insn >> 8) & 0xf;
   return 1 << entry_size;
 }
 
-static unsigned
-insert_nps_bitop_mod4_msb (unsigned insn ATTRIBUTE_UNUSED,
-                           int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_bitop_mod4_msb (unsigned long long insn ATTRIBUTE_UNUSED,
+                           long long int value ATTRIBUTE_UNUSED,
                            const char **errmsg ATTRIBUTE_UNUSED)
 {
   return insn | ((value & 0x2) << 30);
 }
 
-static int
-extract_nps_bitop_mod4_msb (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_bitop_mod4_msb (unsigned long long insn ATTRIBUTE_UNUSED,
                             bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return (insn >> 30) & 0x2;
 }
 
-static unsigned
-insert_nps_bitop_mod4_lsb (unsigned insn ATTRIBUTE_UNUSED,
-                           int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_bitop_mod4_lsb (unsigned long long insn ATTRIBUTE_UNUSED,
+                           long long int value ATTRIBUTE_UNUSED,
                            const char **errmsg ATTRIBUTE_UNUSED)
 {
   return insn | ((value & 0x1) << 15);
 }
 
-static int
-extract_nps_bitop_mod4_lsb (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_bitop_mod4_lsb (unsigned long long insn ATTRIBUTE_UNUSED,
                             bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   return (insn >> 15) & 0x1;
 }
 
-static unsigned
-insert_nps_bitop_dst_pos3_pos4 (unsigned insn ATTRIBUTE_UNUSED,
-                                int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_bitop_dst_pos3_pos4 (unsigned long long insn ATTRIBUTE_UNUSED,
+                                long long int value ATTRIBUTE_UNUSED,
                                 const char **errmsg ATTRIBUTE_UNUSED)
 {
   return insn | (value << 10) | (value << 5);
 }
 
-static int
-extract_nps_bitop_dst_pos3_pos4 (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_bitop_dst_pos3_pos4 (unsigned long long insn ATTRIBUTE_UNUSED,
                                  bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   if (((insn >> 10) & 0x1f) != ((insn >> 5) & 0x1f))
@@ -1091,9 +1091,9 @@ extract_nps_bitop_dst_pos3_pos4 (unsigned insn ATTRIBUTE_UNUSED,
   return ((insn >> 5) & 0x1f);
 }
 
-static unsigned
-insert_nps_bitop_ins_ext (unsigned insn ATTRIBUTE_UNUSED,
-                          int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_bitop_ins_ext (unsigned long long insn ATTRIBUTE_UNUSED,
+                          long long int value ATTRIBUTE_UNUSED,
                           const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value < 0 || value > 28)
@@ -1101,8 +1101,8 @@ insert_nps_bitop_ins_ext (unsigned insn ATTRIBUTE_UNUSED,
   return insn | (value << 20);
 }
 
-static int
-extract_nps_bitop_ins_ext (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_bitop_ins_ext (unsigned long long insn ATTRIBUTE_UNUSED,
                            bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = (insn >> 20) & 0x1f;
@@ -1112,9 +1112,9 @@ extract_nps_bitop_ins_ext (unsigned insn ATTRIBUTE_UNUSED,
 }
 
 #define MAKE_1BASED_INSERT_EXTRACT_FUNCS(NAME,SHIFT,UPPER,BITS)         \
-static unsigned                                                         \
-insert_nps_##NAME (unsigned insn ATTRIBUTE_UNUSED,                      \
-                   int value ATTRIBUTE_UNUSED,                          \
+static unsigned long long                                                         \
+insert_nps_##NAME (unsigned long long insn ATTRIBUTE_UNUSED,                      \
+                   long long int value ATTRIBUTE_UNUSED,                          \
                    const char **errmsg ATTRIBUTE_UNUSED)                \
 {                                                                       \
   if (value < 1 || value > UPPER)                                       \
@@ -1124,8 +1124,8 @@ insert_nps_##NAME (unsigned insn ATTRIBUTE_UNUSED,                      \
   return insn | (value << SHIFT);                                       \
 }                                                                       \
                                                                         \
-static int                                                              \
-extract_nps_##NAME (unsigned insn ATTRIBUTE_UNUSED,                     \
+static long long int                                                              \
+extract_nps_##NAME (unsigned long long insn ATTRIBUTE_UNUSED,                     \
                     bfd_boolean * invalid ATTRIBUTE_UNUSED)             \
 {                                                                       \
   int value = (insn >> SHIFT) & ((1 << BITS) - 1);                      \
@@ -1139,9 +1139,9 @@ MAKE_1BASED_INSERT_EXTRACT_FUNCS(shift_factor, 9, 8, 3)
 MAKE_1BASED_INSERT_EXTRACT_FUNCS(bits_to_scramble, 12, 8, 3)
 MAKE_1BASED_INSERT_EXTRACT_FUNCS(bdlen_max_len, 5, 256, 8)
 
-static unsigned
-insert_nps_min_hofs (unsigned insn ATTRIBUTE_UNUSED,
-                     int value ATTRIBUTE_UNUSED,
+static unsigned long long
+insert_nps_min_hofs (unsigned long long insn ATTRIBUTE_UNUSED,
+                     long long int value ATTRIBUTE_UNUSED,
                      const char **errmsg ATTRIBUTE_UNUSED)
 {
   if (value < 0 || value > 240)
@@ -1152,12 +1152,86 @@ insert_nps_min_hofs (unsigned insn ATTRIBUTE_UNUSED,
   return insn | (value << 6);
 }
 
-static int
-extract_nps_min_hofs (unsigned insn ATTRIBUTE_UNUSED,
+static long long int
+extract_nps_min_hofs (unsigned long long insn ATTRIBUTE_UNUSED,
                       bfd_boolean * invalid ATTRIBUTE_UNUSED)
 {
   int value = (insn >> 6) & 0xF;
   return value * 16;
+}
+
+static unsigned long long
+insert_nps_48_3bit_dst_short (unsigned long long insn ATTRIBUTE_UNUSED,
+                              long long int value ATTRIBUTE_UNUSED,
+                              const char **errmsg ATTRIBUTE_UNUSED)
+{
+  switch (value)
+    {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      insn |= value << 40;
+      break;
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+      insn |= (value - 8) << 40;
+      break;
+    default:
+      *errmsg = _("Register must be either r0-r3 or r12-r15.");
+      break;
+    }
+  return insn;
+}
+
+static long long int
+extract_nps_48_3bit_dst_short (unsigned long long insn ATTRIBUTE_UNUSED,
+                               bfd_boolean * invalid ATTRIBUTE_UNUSED)
+{
+  int value = (insn >> 40) & 0x07;
+  if (value > 3)
+    return (value + 8);
+  else
+    return value;
+}
+
+static unsigned long long
+insert_nps_48_3bit_src2_short (unsigned long long insn ATTRIBUTE_UNUSED,
+                               long long int value ATTRIBUTE_UNUSED,
+                               const char **errmsg ATTRIBUTE_UNUSED)
+{
+  switch (value)
+    {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      insn |= value << 37;
+      break;
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+      insn |= (value - 8) << 37;
+      break;
+    default:
+      *errmsg = _("Register must be either r0-r3 or r12-r15.");
+      break;
+    }
+  return insn;
+}
+
+static long long int
+extract_nps_48_3bit_src2_short (unsigned long long insn ATTRIBUTE_UNUSED,
+                                bfd_boolean * invalid ATTRIBUTE_UNUSED)
+{
+  int value = (insn >> 37) & 0x07;
+  if (value > 3)
+    return (value + 8);
+  else
+    return value;
 }
 
 /* Include the generic extract/insert functions.  Order is important
@@ -2081,6 +2155,15 @@ const struct arc_operand arc_operands[] =
 
 #define NPS_E4BY_INDEX3       (NPS_E4BY_INDEX2 + 1)
   { 2, 0, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_NCHK, insert_nps_index3, extract_nps_index3 },
+
+#define NPS_R48_DST_3B_SHORT	(NPS_E4BY_INDEX3 + 1)
+  { 3, 8, 0, ARC_OPERAND_IR | ARC_OPERAND_NCHK, insert_nps_48_3bit_dst_short, extract_nps_48_3bit_dst_short },
+
+#define NPS_R48_SRC1_3B_SHORT	(NPS_R48_DST_3B_SHORT + 1)
+  { 3, 8, 0, ARC_OPERAND_IR | ARC_OPERAND_DUPLICATE | ARC_OPERAND_NCHK, insert_nps_48_3bit_dst_short, extract_nps_48_3bit_dst_short },
+
+#define NPS_R48_SRC2_3B_SHORT	(NPS_R48_SRC1_3B_SHORT + 1)
+  { 3, 5, 0, ARC_OPERAND_IR | ARC_OPERAND_NCHK, insert_nps_48_3bit_src2_short, extract_nps_48_3bit_src2_short },
 };
 
 const unsigned arc_num_operands = ARRAY_SIZE (arc_operands);
@@ -2484,8 +2567,8 @@ const unsigned arc_num_relax_opcodes = ARRAY_SIZE (arc_relax_opcodes);
 const struct arc_long_opcode arc_long_opcodes[] =
   {
     /* mrgb - (48 bit instruction).  */
-    { { "mrgb", 0x5803, 0xf81f, ARC_OPCODE_ARC700, BITOP, NPS400, { NPS_R_DST_3B_SHORT, NPS_R_SRC1_3B_SHORT, NPS_R_SRC2_3B_SHORT, IGNORED, IGNORED, IGNORED, IGNORED, IGNORED, IGNORED, LIMM }, { 0 }},
-      0x00000000, 0x80000000, { IGNORED, IGNORED, IGNORED, NPS_BITOP_DST_POS1, NPS_BITOP_SRC_POS1, NPS_BITOP_SIZE1, NPS_BITOP_DST_POS2, NPS_BITOP_SRC_POS2, NPS_BITOP_SIZE2 }},
+ //   { { "mrgb", 0x5803, 0xf81f, ARC_OPCODE_ARC700, BITOP, NPS400, { NPS_R_DST_3B_SHORT, NPS_R_SRC1_3B_SHORT, NPS_R_SRC2_3B_SHORT, IGNORED, IGNORED, IGNORED, IGNORED, IGNORED, IGNORED, LIMM }, { 0 }},
+ //     0x00000000, 0x80000000, { IGNORED, IGNORED, IGNORED, NPS_BITOP_DST_POS1, NPS_BITOP_SRC_POS1, NPS_BITOP_SIZE1, NPS_BITOP_DST_POS2, NPS_BITOP_SRC_POS2, NPS_BITOP_SIZE2 }},
 
     /* mrgb.cl - (48 bit instruction).  */
     { { "mrgb", 0x5803, 0xf81f, ARC_OPCODE_ARC700, BITOP, NPS400, { NPS_R_DST_3B_SHORT, NPS_R_SRC1_3B_SHORT, NPS_R_SRC2_3B_SHORT, IGNORED, IGNORED, IGNORED, IGNORED, IGNORED, IGNORED, LIMM }, { C_NPS_CL }},

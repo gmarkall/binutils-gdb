@@ -258,7 +258,9 @@ struct arc_operand
      string (the operand will be inserted in any case).	 If the
      operand value is legal, *ERRMSG will be unchanged (most operands
      can accept any value).  */
-  unsigned (*insert) (unsigned instruction, int op, const char **errmsg);
+  unsigned long long (*insert) (unsigned long long instruction,
+                                long long int op,
+                                const char **errmsg);
 
   /* Extraction function.  This is used by the disassembler.  To
      extract this operand type from an instruction, check this field.
@@ -277,7 +279,8 @@ struct arc_operand
      TRUE if this operand type can not actually be extracted from
      this operand (i.e., the instruction does not match).  If the
      operand is valid, *INVALID will not be changed.  */
-  int (*extract) (unsigned instruction, bfd_boolean *invalid);
+  long long int (*extract) (unsigned long long instruction,
+                            bfd_boolean *invalid);
 };
 
 /* Elements in the table are retrieved by indexing with values from
