@@ -1,3 +1,12 @@
+2016-09-29  Graham Markall  <graham.markall@embecosm.com>
+
+	* config/tc-arc.c (struct arc_insn): Replace short_insn flag with
+	len field.
+	(apply_fixups): Update to use len field.
+	(emit_insn0): Simplify code, making use of len field.
+	(md_convert_frag): Update to use len field.
+	(assemble_insn): Update to use len field.
+
 2016-10-26  Graham Markall  <graham.markall@embecosm.com>
 
 	* testsuite/gas/arc/nps400-6.s: Change ldbit tests so that limm
