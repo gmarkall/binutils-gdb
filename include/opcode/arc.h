@@ -112,13 +112,13 @@ struct arc_opcode
 
   /* The opcode itself.  Those bits which will be filled in with
      operands are zeroes.  */
-  unsigned opcode;
+  unsigned long long opcode;
 
   /* The opcode mask.  This is used by the disassembler.  This is a
      mask containing ones indicating those bits which must match the
      opcode field, and zeroes indicating those bits which need not
      match (and are presumably filled in by operands).  */
-  unsigned mask;
+  unsigned long long mask;
 
   /* One bit flags for the opcode.  These are primarily used to
      indicate specific processors and environments support the
@@ -512,26 +512,26 @@ extern const unsigned arc_num_relax_opcodes;
 #define INSN3OP_C0LU(MOP,SOP)					\
   (INSN3OP (MOP,SOP) | (0x03 << 22) | (0x01 << 5) | FIELDB (62))
 
-#define MINSN3OP_ABC  (~(FIELDF | FIELDA (63) | FIELDB (63) | FIELDC (63)))
-#define MINSN3OP_ALC  (~(FIELDF | FIELDA (63) | FIELDC (63)))
-#define MINSN3OP_ABL  (~(FIELDF | FIELDA (63) | FIELDB (63)))
-#define MINSN3OP_ALL  (~(FIELDF | FIELDA (63)))
-#define MINSN3OP_0BC  (~(FIELDF | FIELDB (63) | FIELDC (63)))
-#define MINSN3OP_0LC  (~(FIELDF | FIELDC (63)))
-#define MINSN3OP_0BL  (~(FIELDF | FIELDB (63)))
-#define MINSN3OP_0LL  (~(FIELDF))
-#define MINSN3OP_ABU  (~(FIELDF | FIELDA (63) | FIELDB (63) | FIELDC (63)))
-#define MINSN3OP_ALU  (~(FIELDF | FIELDA (63) | FIELDC (63)))
-#define MINSN3OP_0BU  (~(FIELDF | FIELDB (63) | FIELDC (63)))
-#define MINSN3OP_0LU  (~(FIELDF | FIELDC (63)))
-#define MINSN3OP_BBS  (~(FIELDF | FIELDA (63) | FIELDB (63) | FIELDC (63)))
-#define MINSN3OP_0LS  (~(FIELDF | FIELDA (63) | FIELDC (63)))
-#define MINSN3OP_CBBC (~(FIELDF | FIELDQ | FIELDB (63) | FIELDC (63)))
-#define MINSN3OP_CBBL (~(FIELDF | FIELDQ | FIELDB (63)))
-#define MINSN3OP_C0LC (~(FIELDF | FIELDQ | FIELDC (63)))
-#define MINSN3OP_C0LL (~(FIELDF | FIELDQ))
-#define MINSN3OP_CBBU (~(FIELDF | FIELDQ | FIELDB (63) | FIELDC (63)))
-#define MINSN3OP_C0LU (~(FIELDF | FIELDQ | FIELDC (63)))
+#define MINSN3OP_ABC  0xFFFFFFFF & (~(FIELDF | FIELDA (63) | FIELDB (63) | FIELDC (63)))
+#define MINSN3OP_ALC  0xFFFFFFFF & (~(FIELDF | FIELDA (63) | FIELDC (63)))
+#define MINSN3OP_ABL  0xFFFFFFFF & (~(FIELDF | FIELDA (63) | FIELDB (63)))
+#define MINSN3OP_ALL  0xFFFFFFFF & (~(FIELDF | FIELDA (63)))
+#define MINSN3OP_0BC  0xFFFFFFFF & (~(FIELDF | FIELDB (63) | FIELDC (63)))
+#define MINSN3OP_0LC  0xFFFFFFFF & (~(FIELDF | FIELDC (63)))
+#define MINSN3OP_0BL  0xFFFFFFFF & (~(FIELDF | FIELDB (63)))
+#define MINSN3OP_0LL  0xFFFFFFFF & (~(FIELDF))
+#define MINSN3OP_ABU  0xFFFFFFFF & (~(FIELDF | FIELDA (63) | FIELDB (63) | FIELDC (63)))
+#define MINSN3OP_ALU  0xFFFFFFFF & (~(FIELDF | FIELDA (63) | FIELDC (63)))
+#define MINSN3OP_0BU  0xFFFFFFFF & (~(FIELDF | FIELDB (63) | FIELDC (63)))
+#define MINSN3OP_0LU  0xFFFFFFFF & (~(FIELDF | FIELDC (63)))
+#define MINSN3OP_BBS  0xFFFFFFFF & (~(FIELDF | FIELDA (63) | FIELDB (63) | FIELDC (63)))
+#define MINSN3OP_0LS  0xFFFFFFFF & (~(FIELDF | FIELDA (63) | FIELDC (63)))
+#define MINSN3OP_CBBC 0xFFFFFFFF & (~(FIELDF | FIELDQ | FIELDB (63) | FIELDC (63)))
+#define MINSN3OP_CBBL 0xFFFFFFFF & (~(FIELDF | FIELDQ | FIELDB (63)))
+#define MINSN3OP_C0LC 0xFFFFFFFF & (~(FIELDF | FIELDQ | FIELDC (63)))
+#define MINSN3OP_C0LL 0xFFFFFFFF & (~(FIELDF | FIELDQ))
+#define MINSN3OP_CBBU 0xFFFFFFFF & (~(FIELDF | FIELDQ | FIELDB (63) | FIELDC (63)))
+#define MINSN3OP_C0LU 0xFFFFFFFF & (~(FIELDF | FIELDQ | FIELDC (63)))
 
 #define INSN2OP_BC(MOP,SOP) (INSN2OP (MOP,SOP))
 #define INSN2OP_BL(MOP,SOP) (INSN2OP (MOP,SOP) | FIELDC (62))
@@ -540,12 +540,12 @@ extern const unsigned arc_num_relax_opcodes;
 #define INSN2OP_BU(MOP,SOP) (INSN2OP (MOP,SOP) | (0x01 << 22))
 #define INSN2OP_0U(MOP,SOP) (INSN2OP (MOP,SOP) | (0x01 << 22) | FIELDB (62))
 
-#define MINSN2OP_BC  (~(FIELDF | FIELDB (63) | FIELDC (63)))
-#define MINSN2OP_BL  (~(FIELDF | FIELDB (63)))
-#define MINSN2OP_0C  (~(FIELDF | FIELDC (63)))
-#define MINSN2OP_0L  (~(FIELDF))
-#define MINSN2OP_BU  (~(FIELDF | FIELDB (63) | FIELDC (63)))
-#define MINSN2OP_0U  (~(FIELDF | FIELDC (63)))
+#define MINSN2OP_BC  0xFFFFFFFF & (~(FIELDF | FIELDB (63) | FIELDC (63)))
+#define MINSN2OP_BL  0xFFFFFFFF & (~(FIELDF | FIELDB (63)))
+#define MINSN2OP_0C  0xFFFFFFFF & (~(FIELDF | FIELDC (63)))
+#define MINSN2OP_0L  0xFFFFFFFF & (~(FIELDF))
+#define MINSN2OP_BU  0xFFFFFFFF & (~(FIELDF | FIELDB (63) | FIELDC (63)))
+#define MINSN2OP_0U  0xFFFFFFFF & (~(FIELDF | FIELDC (63)))
 
 /* Various constants used when defining an extension instruction.  */
 #define ARC_SYNTAX_3OP		(1 << 0)

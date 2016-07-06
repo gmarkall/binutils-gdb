@@ -3712,6 +3712,21 @@ relax_insn_p (const struct arc_opcode *opcode,
   return rv;
 }
 
+static int
+insn_len (const struct arc_opcode *opcode)
+{
+  if (opcode->mask < 0x10000ull)
+    return 2;
+
+  if (opcode->mask < 0x100000000ull)
+    return 4;
+
+  if (opcode->mask < 0x1000000000000ull)
+    return 6;
+
+  return 8;
+}
+
 /* Turn an opcode description and a set of arguments into
    an instruction and a fixup.  */
 
@@ -3830,7 +3845,7 @@ assemble_insn (const struct arc_opcode *opcode,
 	      break;
 	    case O_pcl:
 	      reloc = ARC_RELOC_TABLE (t->X_md)->reloc;
-	      if (ARC_SHORT (opcode->mask) || opcode->insn_class == JUMP)
+	      if ((insn_len (opcode) == 2) || opcode->insn_class == JUMP)
 		as_bad_where (frag_now->fr_file, frag_now->fr_line,
 			      _("Unable to use @pcl relocation for insn %s"),
 			      opcode->name);
@@ -3961,8 +3976,7 @@ assemble_insn (const struct arc_opcode *opcode,
 
   insn->relax = relax_insn_p (opcode, tok, ntok, pflags, nflg);
 
-  /* Short instruction?  */
-  insn->len = ARC_SHORT (opcode->mask) ? 2 : 4;
+  insn->len = insn_len(opcode);
 
   insn->insn = image;
 
