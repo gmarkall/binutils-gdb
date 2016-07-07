@@ -13,4 +13,4 @@
 
         ;; hwschd
         hwschd.off      r10
-        hwschd.restore  0, r20
+        hwschd.restore  r20

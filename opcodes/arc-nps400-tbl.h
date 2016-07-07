@@ -539,7 +539,7 @@ HASH_P(3, 0xC)
 { "hwschd", 0x386f00bf, 0xf8ff8fff, ARC_OPCODE_ARC700, CONTROL, NPS400, { RB }, { C_NPS_HWS_OFF }},
 
 /* hwscd.restore 0,C */
-{ "hwschd", 0x3e6f7003, 0xfffff03f, ARC_OPCODE_ARC700, CONTROL, NPS400, { ZA, RC }, { C_NPS_HWS_RESTORE }},
+{ "hwschd", 0x3e6f7003, 0xfffff03f, ARC_OPCODE_ARC700, CONTROL, NPS400, { RC }, { C_NPS_HWS_RESTORE }},
 
 /****      Load / Store From (0x57f00000 + Offset) Instructions       ****/
 

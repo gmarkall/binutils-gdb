@@ -15,4 +15,4 @@ Disassembly of section .text:
   18:	3e6f 703f           	sync\.rd
   1c:	3e6f 707f           	sync\.wr
   20:	3a6f 10bf           	hwschd\.off	r10
-  24:	3e6f 7503           	hwschd\.restore	0,r20
+  24:	3e6f 7503           	hwschd\.restore	r20
