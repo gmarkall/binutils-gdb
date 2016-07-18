@@ -43,6 +43,7 @@ typedef enum
     ARITH,
     AUXREG,
     BITOP,
+    BMU,
     BRANCH,
     CONTROL,
     DPI,

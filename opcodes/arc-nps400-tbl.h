@@ -552,3 +552,68 @@ XLDST_LIKE("xld", 0xa)
 XLDST_LIKE("xstb", 0xc)
 XLDST_LIKE("xstw", 0xd)
 XLDST_LIKE("xst", 0xe)
+
+/****                        BMU Instructions                         ****/
+
+/* sbdalc dst, src1, type */
+{ "sbdalc", 0x38500040, 0xf8ff09c0, ARC_OPCODE_ARC700, BMU, NPS400, { RA, RB, NPS_BD_TYPE }, { 0 }},
+
+/* bdalc dst, [cm:src1], src1, src2 */
+{ "bdalc", 0x38100000, 0xf8ff0000, ARC_OPCODE_ARC700, BMU, NPS400, { RA, BRAKET, NPS_CM, COLON, RB, BRAKETdup, RBdup,  RC }, { 0 }},
+
+/* bdalc dst, [cm:src1], src1, type, num_buff */
+{ "bdalc", 0x38500800, 0xf8ff0800, ARC_OPCODE_ARC700, BMU, NPS400, { RA, BRAKET, NPS_CM, COLON, RB, BRAKETdup, RBdup, NPS_BD_TYPE, NPS_BMU_NUM }, { 0 }},
+
+/* sbdfre 0, src1, src2 */
+{ "sbdfre", 0x3817003e, 0xf8ff003f, ARC_OPCODE_ARC700, BMU, NPS400, { ZA, RB, RC }, { 0 }},
+
+/* bdfre 0, [cm:src1], src1, src2 */
+{ "bdfre", 0x3811003e, 0xf8ff003f, ARC_OPCODE_ARC700, BMU, NPS400, { ZA, BRAKET, NPS_CM, COLON, RB, BRAKETdup, RBdup, RC }, { 0 }},
+
+/* bdfre 0, [cm:src1], src1, type, num_buff */
+{ "bdfre", 0x3851083e, 0xf8ff083f, ARC_OPCODE_ARC700, BMU, NPS400, { ZA, BRAKET, NPS_CM, COLON, RB, BRAKETdup, RBdup, NPS_BD_TYPE, NPS_BMU_NUM }, { 0 }},
+
+/* bdfre 0, [cm:src1], src1, num_buff */
+{ "bdfre", 0x3851003e, 0xf8ff003f, ARC_OPCODE_ARC700, BMU, NPS400, { ZA, BRAKET, NPS_CM, COLON, RB, BRAKETdup, RBdup, NPS_BMU_NUM }, { 0 }},
+
+/* bdbgt 0, src1, src2 */
+{ "bdbgt", 0x3818003e, 0xf8ff003f, ARC_OPCODE_ARC700, BMU, NPS400, { ZA, RB, RC }, { 0 }},
+
+/* sidxalc dst, src1 */
+{ "sidxalc", 0x385c0040, 0xf8ff0040, ARC_OPCODE_ARC700, BMU, NPS400, { RA, RB }, { 0 }},
+
+/* idxalc dst, [cm:src1], src1, src2 */
+{ "idxalc", 0x381c0000, 0xf8ff0000, ARC_OPCODE_ARC700, BMU, NPS400, { RA, BRAKET, NPS_CM, COLON, RB, BRAKETdup, RBdup, RC }, { 0 }},
+
+/* idxalc dst, [cm:src1], src1, num_idx */
+{ "idxalc", 0x385c0800, 0xf8ff0800, ARC_OPCODE_ARC700, BMU, NPS400, { RA, BRAKET, NPS_CM, COLON, RB, BRAKETdup, RBdup, NPS_BMU_NUM }, { 0 }},
+
+/* sidxfre 0, src1, src2 */
+{ "sidxfre", 0x381d003e, 0xf8ff003f, ARC_OPCODE_ARC700, BMU, NPS400, { ZA, RB, RC }, { 0 }},
+
+/* idxfre 0, [cm:src1], src1, src2 */
+{ "idxfre", 0x381e003e, 0xf8ff003f, ARC_OPCODE_ARC700, BMU, NPS400, { ZA, BRAKET, NPS_CM, COLON, RB, BRAKETdup, RBdup, RC }, { 0 }},
+
+/* idxfre 0, [cm:src1], src1, num_buff */
+{ "idxfre", 0x385e003e, 0xf8ff003f, ARC_OPCODE_ARC700, BMU, NPS400, { ZA, BRAKET, NPS_CM, COLON, RB, BRAKETdup, RBdup, NPS_BMU_NUM }, { 0 }},
+
+/* idxbgt 0, src1, src2 */
+{ "idxbgt", 0x3819003e, 0xf8ff003f, ARC_OPCODE_ARC700, BMU, NPS400, { ZA, RB, RC }, { 0 }},
+
+/* efabgt 0, limm, src2 */
+{ "efabgt", 0x3e0d703e, 0xfffff03f, ARC_OPCODE_ARC700, BMU, NPS400, { ZA, LIMM, RC }, { 0 }},
+
+/* efabgt 0, src1, limm */
+{ "efabgt", 0x380d0fbe, 0xf8ff80ff, ARC_OPCODE_ARC700, BMU, NPS400, { ZA, RB, LIMM }, { 0 }},
+
+/* efabgt 0, src1, src2 */
+{ "efabgt", 0x380d003e, 0xf8ff003f, ARC_OPCODE_ARC700, BMU, NPS400, { ZA, RB, RC }, { 0 }},
+
+/* efabgt dst, limm, src2 */
+{ "efabgt", 0x3e0d7000, 0xfffff000, ARC_OPCODE_ARC700, BMU, NPS400, { RA, LIMM, RC }, { 0 }},
+
+/* efabgt dst, src1, limm */
+{ "efabgt", 0x380d0f80, 0xf8ff0fc0, ARC_OPCODE_ARC700, BMU, NPS400, { RA, RB, LIMM }, { 0 }},
+
+/* efabgt dst, src1, src2 */
+{ "efabgt", 0x380d0000, 0xf8ff8000, ARC_OPCODE_ARC700, BMU, NPS400, { RA, RB, RC }, { 0 }},
