@@ -1139,6 +1139,7 @@ MAKE_1BASED_INSERT_EXTRACT_FUNCS(shift_factor, 9, 8, 3)
 MAKE_1BASED_INSERT_EXTRACT_FUNCS(bits_to_scramble, 12, 8, 3)
 MAKE_1BASED_INSERT_EXTRACT_FUNCS(bdlen_max_len, 5, 256, 8)
 MAKE_1BASED_INSERT_EXTRACT_FUNCS(bd_num_buff, 6, 8, 3)
+MAKE_1BASED_INSERT_EXTRACT_FUNCS(pmu_num_job, 6, 4, 2)
 
 static unsigned
 insert_nps_min_hofs (unsigned insn ATTRIBUTE_UNUSED,
@@ -2175,6 +2176,12 @@ const struct arc_operand arc_operands[] =
 
 #define NPS_BMU_NUM     (NPS_BD_TYPE + 1)
   { 3, 0, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_NCHK, insert_nps_bd_num_buff, extract_nps_bd_num_buff },
+
+#define NPS_PMU_NXT_DST     (NPS_BMU_NUM + 1)
+  { 4, 6, 0, ARC_OPERAND_UNSIGNED, NULL, NULL },
+
+#define NPS_PMU_NUM_JOB     (NPS_PMU_NXT_DST + 1)
+  { 2, 6, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_NCHK, insert_nps_pmu_num_job, extract_nps_pmu_num_job },
 };
 
 const unsigned arc_num_operands = ARRAY_SIZE (arc_operands);

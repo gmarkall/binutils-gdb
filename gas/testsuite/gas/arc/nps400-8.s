@@ -57,3 +57,36 @@
         efabgt r2,r3,0xffffffff
         efabgt r0,r0,r0
         efabgt r7,r8,r9
+
+        ;; jobget
+        jobget 0,[cjid:r0]
+        jobget 0,[cjid:r6]
+        jobget.cl 0,[cjid:r0]
+        jobget.cl 0,[cjid:r6]
+
+        ;; jobdn
+        jobdn 0,[cjid:r0],r0,r0
+        jobdn 0,[cjid:r2],r2,r4
+        jobdn 0,[cjid:r0],r0,0
+        jobdn 0,[cjid:r2],r2,15
+
+        ;; jobalc / sjobalc
+        jobalc r0,[cm:r0],r0,r0
+        jobalc r1,[cm:r2],r2,r3
+        jobalc r0,[cm:r0],r0,1
+        jobalc r1,[cm:r2],r2,4
+        sjobalc r0,r0
+        sjobalc r6,r5
+
+        ;; jobbgt
+
+        jobbgt r0,r0,r0
+        jobbgt r2,r5,r6
+
+        ;; cnljob
+
+        cnljob 0
+
+        ;; qseq
+        qseq r0,[r0]
+        qseq r2,[r4]

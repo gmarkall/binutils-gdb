@@ -55,6 +55,7 @@ typedef enum
     LOGICAL,
     MEMORY,
     NET,
+    PMU,
   } insn_class_t;
 
 /* Instruction Subclass.  */

@@ -617,3 +617,34 @@ XLDST_LIKE("xst", 0xe)
 
 /* efabgt dst, src1, src2 */
 { "efabgt", 0x380d0000, 0xf8ff8000, ARC_OPCODE_ARC700, BMU, NPS400, { RA, RB, RC }, { 0 }},
+
+/****                        PMU Instructions                         ****/
+
+/* jobget<.cl> 0, [cjid:src1] */
+{ "jobget", 0x3e2f7020, 0xfffff03f, ARC_OPCODE_ARC700, PMU, NPS400, { ZA, BRAKET, NPS_CJID, COLON, RC, BRAKET }, { 0 }},
+
+{ "jobget", 0x3e2f7021, 0xfffff03f, ARC_OPCODE_ARC700, PMU, NPS400, { ZA, BRAKET, NPS_CJID, COLON, RC, BRAKET }, { C_NPS_CL }},
+
+/* jobdn 0, [cjid:src1], src1, src2 */
+{ "jobdn", 0x3812003e, 0xf8ff803f, ARC_OPCODE_ARC700, PMU, NPS400, { ZA, BRAKET, NPS_CJID, COLON, RB, BRAKETdup, RBdup, RC }, { 0 }},
+
+/* jobdn 0, [cjid:src1], src1, nxt_dst */
+{ "jobdn", 0x3852003e, 0xf8ff803f, ARC_OPCODE_ARC700, PMU, NPS400, { ZA, BRAKET, NPS_CJID, COLON, RB, BRAKETdup, RBdup, NPS_PMU_NXT_DST }, { 0 }},
+
+/* sjobalc dst, src1 */
+{ "sjobalc", 0x385f0040, 0xf8ff8fc0, ARC_OPCODE_ARC700, PMU, NPS400, { RA, RB }, { 0 }},
+
+/* jobalc dst, [cm:src1], src1, num_job */
+{ "jobalc", 0x385f0800, 0xf8ff8800, ARC_OPCODE_ARC700, PMU, NPS400, { RA, BRAKET, NPS_CM, COLON, RB, BRAKETdup, RBdup, NPS_PMU_NUM_JOB }, { 0 }},
+
+/* jobalc dst, [cm:src1], src1, src2 */
+{ "jobalc", 0x381f0000, 0xf8ff8000, ARC_OPCODE_ARC700, PMU, NPS400, { RA, BRAKET, NPS_CM, COLON, RB, BRAKETdup, RBdup, RC }, { 0 }},
+
+/* jobbgt dst, src1, src2 */
+{ "jobbgt", 0x381a0000, 0xf8ff0000, ARC_OPCODE_ARC700, PMU, NPS400, { RA, RB, RC }, { 0 }},
+
+/* cnljob 0 */
+{ "cnljob", 0x38400fbf, 0xffffffff, ARC_OPCODE_ARC700, PMU, NPS400, { ZA }, { 0 }},
+
+/* qseq dst, [src1] */
+{ "qseq", 0x386f0028, 0xf8ff803f, ARC_OPCODE_ARC700, PMU, NPS400, { RB, BRAKET, RC, BRAKETdup }, { 0 }},
