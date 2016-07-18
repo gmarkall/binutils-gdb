@@ -56,6 +56,7 @@ typedef enum
     MEMORY,
     NET,
     PMU,
+    PROTO,
   } insn_class_t;
 
 /* Instruction Subclass.  */
