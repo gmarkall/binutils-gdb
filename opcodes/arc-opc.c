@@ -1160,6 +1160,42 @@ extract_nps_min_hofs (unsigned insn ATTRIBUTE_UNUSED,
   return value * 16;
 }
 
+#define MAKE_INSERT_NPS_ADDRTYPE(NAME,VALUE)                           \
+static unsigned                                                        \
+insert_nps_##NAME (unsigned insn ATTRIBUTE_UNUSED,                     \
+                   int value ATTRIBUTE_UNUSED,                         \
+                   const char **errmsg ATTRIBUTE_UNUSED)               \
+{                                                                      \
+  if (value != ARC_NPS400_ADDRTYPE_##VALUE)                            \
+    *errmsg = _("Invalid address type for operand");                   \
+  return insn;                                                         \
+}                                                                      \
+                                                                       \
+static int                                                             \
+extract_nps_##NAME (unsigned insn ATTRIBUTE_UNUSED,                    \
+                    bfd_boolean * invalid ATTRIBUTE_UNUSED)            \
+{                                                                      \
+  return ARC_NPS400_ADDRTYPE_##VALUE;                                  \
+}
+
+MAKE_INSERT_NPS_ADDRTYPE(bd, BD)
+MAKE_INSERT_NPS_ADDRTYPE(jid, JID)
+MAKE_INSERT_NPS_ADDRTYPE(lbd, LBD)
+MAKE_INSERT_NPS_ADDRTYPE(mbd, MBD)
+MAKE_INSERT_NPS_ADDRTYPE(sd, SD)
+MAKE_INSERT_NPS_ADDRTYPE(sm, SM)
+MAKE_INSERT_NPS_ADDRTYPE(xa, XA)
+MAKE_INSERT_NPS_ADDRTYPE(xd, XD)
+MAKE_INSERT_NPS_ADDRTYPE(cd, CD)
+MAKE_INSERT_NPS_ADDRTYPE(cbd, CBD)
+MAKE_INSERT_NPS_ADDRTYPE(cjid, CJID)
+MAKE_INSERT_NPS_ADDRTYPE(clbd, CLBD)
+MAKE_INSERT_NPS_ADDRTYPE(cm, CM)
+MAKE_INSERT_NPS_ADDRTYPE(csd, CSD)
+MAKE_INSERT_NPS_ADDRTYPE(cxa, CXA)
+MAKE_INSERT_NPS_ADDRTYPE(cxd, CXD)
+
+
 /* Include the generic extract/insert functions.  Order is important
    as some of the functions present in the .h may be disabled via
    defines.  */
@@ -2081,6 +2117,57 @@ const struct arc_operand arc_operands[] =
 
 #define NPS_E4BY_INDEX3       (NPS_E4BY_INDEX2 + 1)
   { 2, 0, 0, ARC_OPERAND_UNSIGNED | ARC_OPERAND_NCHK, insert_nps_index3, extract_nps_index3 },
+
+#define COLON      (NPS_E4BY_INDEX3 + 1)
+  { 0, 0, 0, ARC_OPERAND_COLON | ARC_OPERAND_FAKE, NULL, NULL },
+
+#define NPS_BD      (COLON + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_bd, extract_nps_bd },
+
+#define NPS_JID      (NPS_BD + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_jid, extract_nps_jid },
+
+#define NPS_LBD      (NPS_JID + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_lbd, extract_nps_lbd },
+
+#define NPS_MBD      (NPS_LBD + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_mbd, extract_nps_mbd },
+
+#define NPS_SD      (NPS_MBD + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_sd, extract_nps_sd },
+
+#define NPS_SM      (NPS_SD + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_sm, extract_nps_sm },
+
+#define NPS_XA      (NPS_SM + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_xa, extract_nps_xa },
+
+#define NPS_XD      (NPS_XA + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_xd, extract_nps_xd },
+
+#define NPS_CD      (NPS_XD + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_cd, extract_nps_cd },
+
+#define NPS_CBD      (NPS_CD + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_cbd, extract_nps_cbd },
+
+#define NPS_CJID      (NPS_CBD + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_cjid, extract_nps_cjid },
+
+#define NPS_CLBD      (NPS_CJID + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_clbd, extract_nps_clbd },
+
+#define NPS_CM      (NPS_CLBD + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_cm, extract_nps_cm },
+
+#define NPS_CSD      (NPS_CM + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_csd, extract_nps_csd },
+
+#define NPS_CXA      (NPS_CSD + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_cxa, extract_nps_cxa },
+
+#define NPS_CXD      (NPS_CXA + 1)
+  { 0, 0, 0, ARC_OPERAND_ADDRTYPE | ARC_OPERAND_NCHK, insert_nps_cxd, extract_nps_cxd },
 };
 
 const unsigned arc_num_operands = ARRAY_SIZE (arc_operands);

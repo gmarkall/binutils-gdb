@@ -420,6 +420,9 @@ static struct hash_control *arc_reg_hash;
 /* The hash table of aux register symbols.  */
 static struct hash_control *arc_aux_hash;
 
+/* The hash table of address types.  */
+static struct hash_control *arc_addrtype_hash;
+
 /* A table of CPU names and opcode sets.  */
 static const struct cpu_type
 {
@@ -460,6 +463,12 @@ static const struct cpu_type
 
 /* Used to define a bracket as operand in tokens.  */
 #define O_bracket O_md32
+
+/* Used to define a colon as an operand in tokens */
+#define O_colon O_md31
+
+/* Used to define address types in nps400 */
+#define O_addrtype O_md30
 
 /* Dummy relocation, to be sorted out.  */
 #define DUMMY_RELOC_ARC_ENTRY     (BFD_RELOC_UNUSED + 1)
@@ -979,6 +988,8 @@ debug_exp (expressionS *t)
     case O_logical_or:		name = "O_logical_or";		break;
     case O_index:		name = "O_index";		break;
     case O_bracket:		name = "O_bracket";		break;
+    case O_colon:               name = "O_colon";               break;
+    case O_addrtype:            name = "O_addrtype";            break;
     }
 
   switch (t->X_md)
@@ -1066,6 +1077,16 @@ tokenize_arguments (char *str,
 	  ++tok;
 	  ++num_args;
 	  break;
+
+        case ':':
+          input_line_pointer++;
+          if (!saw_arg || num_args == ntok)
+            goto err;
+          tok->X_op = O_colon;
+          saw_arg = FALSE;
+          ++tok;
+          ++num_args;
+          break;
 
 	case '@':
 	  /* We have labels, function names and relocations, all
@@ -1694,7 +1715,8 @@ find_opcode_match (const struct arc_opcode_hash_entry *entry,
 
 	  /* Only take input from real operands.  */
 	  if ((operand->flags & ARC_OPERAND_FAKE)
-	      && !(operand->flags & ARC_OPERAND_BRAKET))
+	      && !((operand->flags & ARC_OPERAND_BRAKET) ||
+                   (operand->flags & ARC_OPERAND_COLON)))
 	    continue;
 
 	  /* When we expect input, make sure we have it.  */
@@ -1704,6 +1726,12 @@ find_opcode_match (const struct arc_opcode_hash_entry *entry,
 	  /* Match operand type with expression type.  */
 	  switch (operand->flags & ARC_OPERAND_TYPECHECK_MASK)
 	    {
+            case ARC_OPERAND_ADDRTYPE:
+              /* Check to be an address type */
+              if (tok[tokidx].X_op != O_addrtype)
+                goto match_failed;
+              break;
+
 	    case ARC_OPERAND_IR:
 	      /* Check to be a register.  */
 	      if ((tok[tokidx].X_op != O_register
@@ -1754,6 +1782,12 @@ find_opcode_match (const struct arc_opcode_hash_entry *entry,
 	      if (tok[tokidx].X_op != O_bracket)
 		goto match_failed;
 	      break;
+
+            case ARC_OPERAND_COLON:
+              /* Check if colon is also in opcode table as operand */
+              if (tok[tokidx].X_op != O_colon)
+                goto match_failed;
+              break;
 
 	    case ARC_OPERAND_LIMM:
 	    case ARC_OPERAND_SIGNED:
@@ -2461,6 +2495,22 @@ declare_register_set (void)
     }
 }
 
+/* Construct a symbol for an address type.  */
+
+static void
+declare_addrtype (const char *name, int number)
+{
+  const char *err;
+  symbolS *addrtypeS = symbol_create (name, undefined_section,
+                                      number, &zero_address_frag);
+
+  err = hash_insert (arc_addrtype_hash, S_GET_NAME(addrtypeS),
+                     (void *) addrtypeS);
+  if (err)
+    as_fatal (_("Inserting \"%s\" into addres type type failed: %s"),
+              name, err);
+}
+
 /* Port-specific assembler initialization.  This function is called
    once, at assembler startup time.  */
 
@@ -2575,6 +2625,28 @@ md_begin (void)
 	as_fatal (_("internal error: can't hash aux register '%s': %s"),
 		  auxr->name, retval);
     }
+
+  /* Address type declaration.  */
+  arc_addrtype_hash = hash_new ();
+  if (arc_addrtype_hash == NULL)
+    as_fatal (_("Virtual memory exhausted"));
+
+  declare_addrtype ("bd", ARC_NPS400_ADDRTYPE_BD);
+  declare_addrtype ("jid", ARC_NPS400_ADDRTYPE_JID);
+  declare_addrtype ("lbd", ARC_NPS400_ADDRTYPE_LBD);
+  declare_addrtype ("mbd", ARC_NPS400_ADDRTYPE_MBD);
+  declare_addrtype ("sd", ARC_NPS400_ADDRTYPE_SD);
+  declare_addrtype ("sm", ARC_NPS400_ADDRTYPE_SM);
+  declare_addrtype ("xa", ARC_NPS400_ADDRTYPE_XA);
+  declare_addrtype ("xd", ARC_NPS400_ADDRTYPE_XD);
+  declare_addrtype ("cd", ARC_NPS400_ADDRTYPE_CD);
+  declare_addrtype ("cbd", ARC_NPS400_ADDRTYPE_CBD);
+  declare_addrtype ("cjid", ARC_NPS400_ADDRTYPE_CJID);
+  declare_addrtype ("clbd", ARC_NPS400_ADDRTYPE_CLBD);
+  declare_addrtype ("cm", ARC_NPS400_ADDRTYPE_CM);
+  declare_addrtype ("csd", ARC_NPS400_ADDRTYPE_CSD);
+  declare_addrtype ("cxa", ARC_NPS400_ADDRTYPE_CXA);
+  declare_addrtype ("cxd", ARC_NPS400_ADDRTYPE_CXD);
 }
 
 /* Write a value out to the object file, using the appropriate
@@ -3275,7 +3347,7 @@ arc_parse_name (const char *name,
   if (!assembling_insn)
     return FALSE;
 
-  /* Handle only registers.  */
+  /* Handle only registers and address types.  */
   if (e->X_op != O_absent)
     return FALSE;
 
@@ -3286,6 +3358,15 @@ arc_parse_name (const char *name,
       e->X_add_number = S_GET_VALUE (sym);
       return TRUE;
     }
+
+  sym = hash_find (arc_addrtype_hash, name);
+  if (sym)
+    {
+      e->X_op = O_addrtype;
+      e->X_add_number = S_GET_VALUE (sym);
+      return TRUE;
+    }
+
   return FALSE;
 }
 
@@ -3748,7 +3829,8 @@ assemble_insn (const struct arc_opcode *opcode,
       const expressionS *t = (const expressionS *) 0;
 
       if ((operand->flags & ARC_OPERAND_FAKE)
-	  && !(operand->flags & ARC_OPERAND_BRAKET))
+	  && !((operand->flags & ARC_OPERAND_BRAKET) ||
+               (operand->flags & ARC_OPERAND_COLON)))
 	continue;
 
       if (operand->flags & ARC_OPERAND_DUPLICATE)
@@ -3785,7 +3867,9 @@ assemble_insn (const struct arc_opcode *opcode,
 	  break;
 
 	case O_bracket:
-	  /* Ignore brackets.  */
+        case O_colon:
+        case O_addrtype:
+	  /* Ignore brackets, colons, and address types.  */
 	  break;
 
 	case O_absent:
