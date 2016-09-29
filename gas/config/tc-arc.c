@@ -3870,7 +3870,8 @@ assemble_insn (const struct arc_opcode *opcode,
 	      break;
 	    case O_pcl:
 	      reloc = ARC_RELOC_TABLE (t->X_md)->reloc;
-	      if (ARC_SHORT (opcode->mask) || opcode->insn_class == JUMP)
+	      if (arc_opcode_len (opcode) == 2
+		  || opcode->insn_class == JUMP)
 		as_bad_where (frag_now->fr_file, frag_now->fr_line,
 			      _("Unable to use @pcl relocation for insn %s"),
 			      opcode->name);
@@ -4002,7 +4003,8 @@ assemble_insn (const struct arc_opcode *opcode,
   insn->relax = relax_insn_p (opcode, tok, ntok, pflags, nflg);
 
   /* Instruction length.  */
-  insn->len = ARC_SHORT (opcode->mask) ? 2 : 4;
+  insn->len = arc_opcode_len (opcode);
+  gas_assert (insn->len == 2 || insn->len == 4);
 
   insn->insn = image;
 
