@@ -1,3 +1,7 @@
+2016-10-13  Graham Markall  <graham.markall@embecosm.com>
+
+	* arc-dis.c (print_insn_arc): Swap highbyte and lowbyte.
+
 2016-09-29  Graham Markall  <graham.markall@embecosm.com>
 
 	* arc-dis.c (find_format_from_table): Replace use of ARC_SHORT
