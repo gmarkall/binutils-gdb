@@ -1,3 +1,9 @@
+2016-10-26  Graham Markall  <graham.markall@embecosm.com>
+
+	* testsuite/gas/arc/nps400-6.s: Change ldbit tests so that limm
+	operands are out of the range of an s9, in order to fix the test.
+	* testsuite/gas/arc/nps400-6.d: Updated to match new expected output.
+
 2016-10-21  H.J. Lu  <hongjiu.lu@intel.com>
 
 	* config/tc-i386.c (cpu_arch): Remove .pcommit.
