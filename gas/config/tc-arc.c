@@ -745,7 +745,7 @@ arc_insert_opcode (const struct arc_opcode *opcode)
    function is used for regular 4, 6, and 8 byte instructions as well.  */
 
 static void
-md_number_to_chars_midend (char *buf, valueT val, int n)
+md_number_to_chars_midend (char *buf, unsigned long long val, int n)
 {
   switch (n)
     {
@@ -2644,7 +2644,7 @@ find_operand_for_reloc (extended_bfd_reloc_code_real_type reloc)
 static unsigned long long
 insert_operand (unsigned long long insn,
 		const struct arc_operand *operand,
-		offsetT val,
+		long long val,
 		const char *file,
 		unsigned line)
 {
