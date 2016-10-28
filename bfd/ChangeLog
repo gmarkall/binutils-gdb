@@ -1,3 +1,7 @@
+2016-10-28  Graham Markall  <graham.markall@embecosm.com>
+
+	* cpu-arc.c: Add NPS400 to arch_info_struct.
+
 2016-10-31  Alan Modra  <amodra@gmail.com>
 
 	PR 20748
