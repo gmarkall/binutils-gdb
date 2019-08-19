@@ -401,6 +401,7 @@ print_insn_args (const char *d, insn_t l, bfd_vma pc, disassemble_info *info)
 
 	case 'w':
 	  print (info->stream, "%s", riscv_gpr_names[EXTRACT_OPERAND (RS1, l)]);
+          /* fallthrough  */
 	case 't':
 	  print (info->stream, "%s", riscv_gpr_names[EXTRACT_OPERAND (RS2, l)]);
 	  break;
@@ -427,6 +428,7 @@ print_insn_args (const char *d, insn_t l, bfd_vma pc, disassemble_info *info)
 
 	case 'o':
 	  maybe_print_address (pd, rs1, EXTRACT_ITYPE_IMM (l));
+          /* fallthrough  */
 	case 'j':
           if (d[1]=='i') {
              ++d;

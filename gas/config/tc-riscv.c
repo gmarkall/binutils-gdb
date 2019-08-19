@@ -34,7 +34,7 @@
 #include "opcode/riscv.h"
 
 #define _WITH_PULP_CHIP_INFO_FUNCT_
-#include "../../../riscv-gcc/gcc/config/riscv/riscv-opts.h"
+#include "riscv-opts.h"
 
 #include <stdint.h>
 
@@ -695,6 +695,7 @@ validate_riscv_insn (const struct riscv_opcode *opc)
                         used_bits |= ENCODE_I6TYPE_IMM(-1U);
                         ++p; break;
                 }
+                /* fallthrough  */
       default:
 	as_bad (_("internal: bad RISC-V opcode "
 		  "(unknown operand type `%c'): %s %s"),
@@ -2489,7 +2490,7 @@ riscv_pre_output_hook (void)
   for (s = stdoutput->sections; s; s = s->next)
     for (frch = seg_info (s)->frchainP; frch; frch = frch->frch_next)
       {
-	const fragS *frag;
+	fragS *frag;
 
 	for (frag = frch->frch_root; frag; frag = frag->fr_next)
 	  {
